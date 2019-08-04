@@ -1,0 +1,65 @@
+Introduction
+Des gens nous demandent souvent de leur recommander une licence pour leur projet. Nous avons déjà publié des écrits à ce sujet, mais l'information se retrouve dispersée entre différents essais, entrées de FAQ et commentaires de licences. Cet article rassemble cette information en une source unique pour en faciliter le suivi et la référence.
+
+Ces recommandations s'appliquent aux œuvres utilitaires, ce qui comprend le logiciel, la documentation et quelques autres choses. Les œuvres d'art et celles qui expriment un point de vue sont un autre sujet ; le projet GNU n'a pas de position particulière sur la manière dont elles doivent être publiées, à part qu'on doit pouvoir les utiliser sans logiciel non libre (en particulier, sans DRM). Toutefois, on peut parfaitement appliquer ces recommandations aux œuvres associées à un programme particulier.
+
+Les recommandations ci-dessous s'appliquent au choix d'une licence pour une œuvre que vous avez créée – que ce soit la modification d'une œuvre existante, ou une œuvre originale. Elles ne s'intéressent pas au problème que pose la combinaison d'œuvres publiées sous des licences différentes. Si vous cherchez de l'aide pour cela, veuillez vous reporter à notre FAQ sur les licences.
+
+Une fois que vous aurez vu ce que nous recommandons ici, si vous souhaitez être conseillé vous pouvez écrire à <licensing@gnu.org>. Notez que l'équipe des licences mettra probablement plusieurs semaines à vous répondre ; si vous n'avez rien reçu au bout d'un mois, envoyez un nouveau message.
+
+Contribuer à un projet existant
+Quand vous contribuez à un projet existant, vous devriez généralement publier vos versions modifiées sous la même licence que l'œuvre originale. Il est bon de coopérer avec les mainteneurs du projet, et utiliser une licence différente pour vos modifications rend souvent cette coopération très difficile. Vous ne devriez le faire que s'il y a pour cela une excellente raison.
+
+Utiliser une licence différente peut se justifier dans le cas où vous faites des changements majeurs à une œuvre placée sous une licence sans copyleft. Si la version que vous avez créée est bien plus utile que la version originale, cela vaut la peine de mettre votre œuvre sous copyleft, pour les mêmes raisons qui nous font normalement recommander le copyleft. Si vous êtes dans cette situation, veuillez suivre les recommandations pour un nouveau projet, ci-dessous.
+
+Si pour une raison quelconque vous choisissez de publier vos contributions sous une licence différente, vous devez vous assurer que la licence originale permet d'utiliser le matériel sous la licence que vous avez choisie. Par simple honnêteté, montrez explicitement quelle licence s'applique à chaque partie de l'œuvre.
+
+Logiciel
+Nous recommandons différentes licences pour différents projets, grosso modo selon la destination du logiciel. En général, nous recommandons d'utiliser la licence qui a le plus fort copyleft n'interférant pas avec cette destination. Notre essai « Qu'est-ce que le copyleft ? » explique en détail le concept de copyleft, et pourquoi c'est généralement la meilleure stratégie en matière de licence.
+
+Pour la plupart des programmes, nous vous recommandons d'utiliser la version la plus récente de la licence publique générale GNU (GPL) pour votre projet. Son copyleft fort convient à toutes sortes de logiciels et comporte de nombreuses protections garantissant la liberté des utilisateurs. Donnez également la permission d'utiliser les futures versions de la licence ; en d'autres termes, indiquez dans l'avis de licence que votre programme est régi par la GPL version 3 ou ultérieure.
+
+Vous trouverez d'autres conseils dans l'article « Comment utiliser les licences GNU pour vos logiciels ».
+
+Voyons maintenant les exceptions, les cas où il vaut mieux utiliser d'autres licences que la GPL.
+
+Petits programmes
+Pour la plupart des petits programmes, ce n'est pas la peine d'utiliser le copyleft. Nous prenons 300 lignes comme critère : quand le code source d'un paquet logiciel ne dépasse pas cette longueur, les avantages du copyleft sont d'habitude trop réduits pour justifier l'ennui d'avoir à s'assurer qu'une copie de la licence accompagne toujours le logiciel.
+
+Pour ces programmes, nous recommandons la licence Apache 2.0. C'est une licence de logiciel très laxiste (sans copyleft) qui a des clauses empêchant les contributeurs et les distributeurs de faire des recours en violation de brevet. Cela n'immunise pas le logiciel contre la menace des brevets, mais en revanche cela empêche les détenteurs de brevets de mettre en place un « leurre » qui consiste à diffuser le logiciel sous des clauses libres, puis à exiger des destinataires qu'ils acceptent des clauses non libres au moyen d'une licence de brevet.
+
+La licence Apache 2.0 est la meilleure des licences très laxistes ; si donc vous allez utiliser une licence très laxiste pour une raison quelconque, nous vous la recommandons.
+
+Bibliothèques
+Pour les bibliothèques, nous distinguons trois cas.
+
+Certaines bibliothèques mettent en œuvre des standards libres qui font concurrence à des standards privateurs,1 par exemple Ogg Vorbis (qui fait concurrence à MP3 pour l'audio) et WebM (qui fait concurrence à MPEG-4 pour la vidéo). Pour ces projets, une large utilisation du code est vitale pour faire avancer la cause du logiciel libre, et apporte plus que de mettre un copyleft sur le code du projet.
+
+Dans ces cas particuliers, nous recommandons la licence Apache 2.0.
+
+Pour toutes les autres bibliothèques, nous recommandons un copyleft, quel qu'il soit. Si les développeurs utilisent déjà une bibliothèque alternative bien établie, publiée sous une licence non libre ou très laxiste, alors nous recommandons d'utiliser la licence publique générale GNU amoindrie (LGPL).
+
+Contrairement au premier cas, où la bibliothèque implémente une norme supérieure sur le plan éthique, ici l'adoption du code ne servira, en soi, aucun objectif particulier ; aussi n'y a-t-il aucune raison d'éviter complètement le copyleft. Pourtant, si vous exigez des développeurs utilisant votre bibliothèque qu'ils publient l'ensemble de leur programme sous copyleft, ils vont simplement utiliser les alternatives disponibles et cela ne fera pas non plus avancer notre cause. La GPL amoindrie a été conçue pour combler le hiatus entre ces deux cas, en permettant aux développeurs de logiciel privateur d'utiliser la bibliothèque qu'elle régit, mais avec un copyleft faible qui donne aux utilisateurs la liberté en ce qui concerne le code de la bibliothèque elle-même.
+
+Pour les bibliothèques qui apportent des fonctions spécialisées et ne sont pas exposées à la concurrence de licences sans copyleft ou non libres bien implantées, nous recommandons la GNU GPL ordinaire. Pour connaître les raisons de ce choix, consultez « Pourquoi vous ne devriez pas utiliser la LGPL pour votre prochaine bibliothèque ».
+
+Logiciels destinés aux serveurs
+S'il y a une bonne probabilité que d'autres fassent des versions améliorées de votre programme pour les faire tourner sur des serveurs sans les distribuer à quiconque, ce qui, vous le craignez, désavantagerait votre version publiée, nous recommandons la licence publique générale GNU Affero (AGPL). Les termes de l'AGPL sont presque identiques à ceux de la GPL ; la seule différence importante est qu'elle a une clause supplémentaire visant à garantir que les personnes utilisant le logiciel sur un réseau seront en mesure d'obtenir son code source.
+
+L'obligation créée par l'AGPL ne traite pas les problèmes qui peuvent se présenter aux utilisateurs lorsqu'ils confient leurs tâches informatiques ou leurs données au serveur de quelqu'un d'autre. Par exemple, elle n'empêchera pas le service se substituant au logiciel (SaaSS) de priver les utilisateurs de leur liberté – mais la plupart des serveurs ne font pas de SaaSS. Pour en apprendre plus sur ces questions, consultez « Pourquoi la GPL Affero ? ».
+
+Documentation
+Pour les manuels, les textes de référence et autres gros ouvrages de documentation, nous recommandons la licence GNU de documentation libre (FDL). C'est une licence à copyleft fort pour les ouvrages éducatifs, écrite à l'origine pour les manuels des logiciels ; elle contient des clauses qui répondent spécifiquement aux problèmes courants qui surviennent quand ces ouvrages sont distribués ou modifiés.
+
+Pour les textes courts de documentation, de moindre importance (les cartes aide-mémoire par exemple), il vaut mieux utiliser la GNU all-permissive license (licence GNU complètement permissive) puisqu'une copie de la GNU FDL aurait du mal à tenir sur une carte aide-mémoire. N'utilisez pas la CC-BY parce qu'elle est incompatible avec elle.
+
+Pour les pages de manuels, nous recommandons la GNU FDL si la page est longue et la GNU all-permissive license si elle est courte.
+
+Certaines documentations contiennent du code source de logiciel. Par exemple, le manuel d'un langage de programmation peut contenir des exemples pour que les lecteurs comprennent. Vous devriez à la fois les inclure dans le manuel sous les termes de la FDL et les diffuser sous une autre licence adaptée au logiciel. Cela facilite le réemploi du code dans d'autres projets. Nous vous recommandons de placer les petits morceaux de code dans le domaine public en utilisant la CC0 et de distribuer les morceaux plus gros sous la même licence que le projet logiciel associé.
+
+Autres données des programmes
+Cette section se rapporte à toutes les autres œuvres d'utilité pratique que vous pouvez inclure dans le logiciel. Pour vous donner quelques exemples, cela comprend les icônes et autres graphismes fonctionnels ou utiles, les polices et les données géographiques. Vous pouvez aussi suivre ces recommandations pour les œuvres artistiques, mais si vous ne le faites pas nous ne vous critiquerons pas.
+
+Si vous créez ces œuvres dans le cadre d'un projet logiciel, nous vous recommandons généralement de les publier sous la même licence que le logiciel. Cela ne pose pas de problème avec les licences que nous avons recommandées : la GPLv3, la LGPLv3, l'AGPLv3 et la GPLv2 peuvent toutes s'appliquer à n'importe quel type d'œuvre – pas uniquement logicielle – qui puisse être placée sous copyright et qui ait clairement une forme privilégiée pour les modifications. Utiliser la même licence que pour le logiciel rendra plus facile le respect de la licence par les distributeurs, et éliminera tout doute concernant d'éventuels problèmes de compatibilité. Utiliser une licence libre différente peut se justifier si cela offre un avantage pratique spécifique, comme une meilleure coopération avec d'autres projets libres.
+
+Si votre œuvre n'est pas destinée à un projet logiciel déterminé, ou si la licence du projet ne convient pas, alors nous vous recommandons de choisir une licence à copyleft adaptée à votre œuvre. Nous en répertorions quelques-unes dans notre liste des licences. Si aucune ne semble particulièrement bien adaptée, vous pouvez utiliser la Creative Commons paternité, partage dans les mêmes conditions (CC BY-SA), une licence à copyleft qui convient à toutes sortes d'œuvres.

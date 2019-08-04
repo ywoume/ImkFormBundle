@@ -1,0 +1,40 @@
+imk_form:
+  forms:
+    login: false
+    name: formName
+    class: formClass
+    action: 'path'
+    attr:
+      cssClass: 'css-class'
+      id: 'idform'
+    fields:
+      nom:
+        name: name
+        template: true
+        dto: true
+        validation:
+          - notblank:
+              message: label.test
+          - number:
+              min: 2
+              max: 3
+        class: 'col-lg-6'
+        id: null
+        type: text
+        require: true
+        event: event
+        data-html:
+          id: 1
+          variable: var
+  entity: true
+  dto: true
+  addMethod:
+    - calcul:
+        formule_php: '$secteur * $surface'
+        parameter: ['secteur','surface']
+        visibility: public
+        return: 'mixed'
+
+
+
+

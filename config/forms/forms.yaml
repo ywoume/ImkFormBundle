@@ -1,0 +1,6 @@
+imk_form:
+  forms:
+    imports:
+      - { resource: inscription.yaml }
+      - { resource: login.yaml}
+      - { resource: uploads.yaml }

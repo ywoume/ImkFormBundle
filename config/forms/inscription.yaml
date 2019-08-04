@@ -1,0 +1,95 @@
+form_inscription:
+    login: false
+    name: inscription
+    class: FormInscription
+    action: 'path'
+    provider: ['entity','dto']
+    attr:
+      cssClass: 'css-class'
+      id: 'idform'
+    fields:
+      nom:
+        name: nom
+        template: true
+        dto: true
+        entity: true
+        validation:
+          - notblank:
+              message: label.test
+          - number:
+              min: 2
+              max: 3
+        attr:
+          class: 'col-lg-6'
+          id: null
+          type: text
+          require: true
+          data-html:
+            id: 1
+            variable: var
+        event: event
+      prenom:
+        name: prenom
+        template: true
+        dto: true
+        entity: true
+        validation:
+          - notblank:
+              message: label.prenom
+        attr:
+          class: 'col-lg-6'
+          id: inscription_prenom
+          type: text
+          require: true
+          data-html:
+            id: 1
+            variable: var
+        event: event
+      password:
+        name: password
+        template: true
+        dto: true
+        entity: true
+        validation:
+          - notblank:
+              message: label.prenom
+        attr:
+          class: 'col-lg-6'
+          id: inscription_prenom
+          type: repeated
+          require: true
+          data-html:
+            id: 1
+            variable: var
+        event: event
+      email:
+        name: email
+        template: true
+        dto: true
+        entity: true
+        validation:
+          - notblank:
+              message: label.email
+        attr:
+          class: 'col-lg-12'
+          id: inscription_email
+          type: email
+          require: true
+          data-html:
+            id: 1
+            variable: var
+        event: event
+      cgv:
+        name: cgv
+        template: true
+        dto: false
+        entity: false
+        validation:
+          - notblank:
+              message: label.cgv
+        attr:
+          class: 'col-lg-12'
+          id: inscription_email
+          type: checkbox
+          require: true
+        event: event

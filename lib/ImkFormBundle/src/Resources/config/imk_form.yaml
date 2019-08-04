@@ -1,0 +1,5 @@
+imk_form:
+  form_template: '%kernel.project_dir%/templates/forms'
+  form_config: '%kernel.project_dir%/config/forms'
+  form_type: '%kernel.project_dir%/src/Form/Types'
+  form_dto: '%kernel.project_dir%/src/Form/Dto'

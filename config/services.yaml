@@ -25,3 +25,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    Imk\FormBundle\Factory\LoadConfigFactory:
+        arguments: ['@filesystem','@kernel','@parameter_bag']
+        public: false
+        autowire: false
+    Imk\FormBundle\Factory\Form\Form:
+        arguments: ['@Imk\FormBundle\Factory\LoadConfigFactory']
+        public: false
+        autowire: false
+    Imk\FormBundle\Factory\Form\FormFields:
+        arguments: ['@Imk\FormBundle\Factory\Form\Form']
+        public: false
+        autowire: false

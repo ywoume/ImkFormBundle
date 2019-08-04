@@ -1,0 +1,25 @@
+form_uploads:
+  login: false
+  name: FormUpload
+  class: FormUpload
+  action: 'path'
+  attr:
+    cssClass: 'css-class'
+    id: 'form-upload'
+  fields:
+    pdf:
+      name: pdf
+      template: true
+      entity: true
+      dto: true
+      validation:
+        - file:
+            message: label.file
+      class: 'col-lg-6'
+      id: null
+      type: text
+      require: true
+      event: event
+      data-html:
+        id: 1
+        variable: var
