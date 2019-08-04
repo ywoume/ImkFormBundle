@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace Imk\FormBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,9 +17,8 @@ class GenerateAllCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->setDescription('This command generate all :  dto, entity, forms and twig')
+            ->addOption('namespace', '-n', InputOption::VALUE_OPTIONAL, 'Specific namespace');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -32,6 +31,7 @@ class GenerateAllCommand extends Command
             echo $processDto->getErrorOutput();
         }
 
+        die;
         $processFormCmd = ['php', 'bin/console', 'odicee:generate:form'];
         $processForm = new Process($processFormCmd);
         $processForm->run();

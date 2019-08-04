@@ -67,27 +67,7 @@ class FormFields
         if(is_array($this->fields)){
             $result = [];
             foreach ($this->fields as $item => $field) {
-                $this->name = $field['name'];
-                $this->template = $field['template'];
-                $this->dto = $field['dto'];
-                $this->entity = $field['entity'];
-                $this->validation = $field['validation'];
-                $this->attr = $field['attr'];
-                $this->event = $field['event'];
-                $result[$this->name]['config'] = [
-                    'isTemplate' => $this->template,
-                    'isDto' => $this->dto,
-                    'isValidation' => (count($this->validation) > 0 ) ? true : false,
-                    'isEntity' => $this->entity,
-                ];
-
-                $result[$this->name]['attr'] = [
-                    'class' => $this->attr['class'],
-                    'id' => $this->attr['id'],
-                    'type' => $this->attr['type'],
-                    'require' => $this->attr['require'],
-                ];
-
+                $this->matchFields($field);
             }
             return $result;
         }
@@ -95,9 +75,61 @@ class FormFields
 
     }
 
+    public function buildDataRenderDto()
+    {
+        if(is_array($this->fields)){
+            $result = [];
+            foreach ($this->fields as $item => $field) {
+                if($field['dto']){
+                    $result[] = $this->matchFields($field);
+                }
+            }
+            return $result;
+
+        }
+        return [];
+    }
+
+    private function matchFields($field)
+    {
+        $this->name = $field['name'];
+        $this->template = $field['template'];
+        $this->dto = $field['dto'];
+        $this->entity = $field['entity'];
+        $this->validation = $field['validation'];
+        $this->attr = (array_key_exists('attr', $field) ? $field['attr'] : null);
+        $this->event = $field['event'];
+        $result[$this->name]['config'] = [
+            'isTemplate' => $this->template,
+            'isDto' => $this->dto,
+            'isValidation' => (count($this->validation) > 0 ) ? true : false,
+            'isEntity' => $this->entity,
+        ];
+
+        $result[$this->name]['attr'] = [
+            'class' => $this->attr['class'],
+            'id' => $this->attr['id'],
+            'type' => $this->attr['type'],
+            'require' => $this->attr['require'],
+        ];
+        if($result[$this->name]['config']['isValidation']){
+            $validation = [];
+            foreach ($this->validation as $k => $item) {
+                $validation[] = $item;
+            }
+            $result[$this->name]['validation'] = $validation;
+        }
+        return $result;
+    }
+
     public function getName()
     {
+        return $this->currentForm->getName();
+    }
 
+    public function getFields()
+    {
+        return $this->currentForm->getFields();
     }
     protected function matchType()
     {

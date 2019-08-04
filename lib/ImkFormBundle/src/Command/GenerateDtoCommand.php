@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Command;
+namespace Imk\FormBundle\Command;
 
 
-use App\Services\Operations\OperationsManager;
 use Imk\FormBundle\Utils\ImkCmdManager;
-use League\Flysystem\FileExistsException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +15,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class GenerateDtoCommand extends VersioningCmd
+class GenerateDtoCommand extends Command
 {
     protected static $defaultName = 'imk:generate:dto';
 
@@ -29,11 +27,10 @@ class GenerateDtoCommand extends VersioningCmd
     /**
      * ImkCmdManager constructor.
      * @param ImkCmdManager $cmdManager
-     * @param string|null $name
      */
-    public function __construct(ImkCmdManager $cmdManager, string $name = null)
+    public function __construct(ImkCmdManager $cmdManager)
     {
-        parent::__construct($name);
+        parent::__construct(self::$defaultName);
         $this->cmdManager = $cmdManager;
     }
 
@@ -62,16 +59,16 @@ class GenerateDtoCommand extends VersioningCmd
         $io = new SymfonyStyle($input, $output);
         $arg = $input->getArgument('increase');
 
-        $allOps = $this->cmdManager->getAllOperations();
-
-        if ($arg && $arg == 'increase') {
+        $allForm = $this->cmdManager->allForms();
+        /*if ($arg && $arg == 'increase') {
             $io->write('You want to increase all existing class');
             $io->note(sprintf('You passed an argument: %s', $arg));
             $increase = true;
         } else {
             $increase = false;
-        }
-        $this->cmdManager->buildDto($allOps, $increase);
+        }*/
+        $this->cmdManager->buildDto($allForm);
+
         $io->success('You have created dto, send boobs now in slack. ;)');
 
         if ($arg && $arg == 'git') {

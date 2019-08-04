@@ -62,7 +62,7 @@ class Builder
      */
     public function generateForm(string $className, $fields = null)
     {
-
+        var_dump($className); die;
         $fields = $this->buildFieldForm($fields);
 
         $useDependency = [];
@@ -112,36 +112,37 @@ class Builder
     }
 
 
-
     /**
      * @param string $className
      * @param $fields
      *
-     * @param null $formule
+     * @param $dataRender
      * @return void
      * @throws \Exception
      */
-    public function generateDTO(string $className, $fields, $formule = null): void
+    public function generateDTO(string $className, $fields, $dataRender): void
     {
+
         $entityClassDetails = $this->generator->createClassNameDetails(
             $className,
             'Form\\Dto'
         );
 
         $classExists = class_exists($entityClassDetails->getFullName());
+
         if (!$classExists) {
-            // $entityClassGenerator = new EntityClassGenerator($this->generator);
 
             try {
                 $this->generator->generateClass(
                     $entityClassDetails->getFullName(),
-                    __DIR__.'/../Tpl/dto.tpl.php',
+                    __DIR__.'/../../Render/dto.tpl.php',
                     [
                         'class_name' => $className,
-                        'form_fields' => $fields,
-                        'namespace' => 'App\\Form\\Operations\\DTO',
+                        'form_fields' => $dataRender,
+                        'form_validator' => $dataRender,
+                        'namespaces' => 'App\\Form\\Operations\\DTO',
                         'addMethod' => '',
-                        'validator' => $this->getValidators($fields)
+                        //'validator' => $this->getValidators($fields)
                     ]
                 );
             } catch (\Exception $e) {

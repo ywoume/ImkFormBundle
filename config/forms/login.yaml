@@ -1,7 +1,7 @@
 fom_login:
   login: true
   name: inscription
-  class: FormInscription
+  class: FormLogin
   action: 'path'
   provider: ['entity','dto']
   attr:
@@ -36,6 +36,12 @@ fom_login:
       validation:
         - notblank:
             message: label.password
+        - min:
+            message: label.min
+            lenght: 3
+        - preg_match:
+            message: label.pregmatch
+            pattern: ''
       attr:
         class: 'col-lg-6'
         id: inscription_password

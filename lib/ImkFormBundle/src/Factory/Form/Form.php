@@ -24,6 +24,8 @@ class Form
 
     protected $currentForm;
 
+    protected $name;
+
 
     public function __construct(LoadConfigFactory $loadConfigFactory)
     {
@@ -60,6 +62,10 @@ class Form
     public function getAttr() : array
     {
         return $this->currentForm['attr'];
+    }
+    public function getName() : string
+    {
+        return $this->currentForm['name'];
     }
 
     public function getFields()
