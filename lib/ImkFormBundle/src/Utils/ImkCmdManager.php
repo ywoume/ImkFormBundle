@@ -6,6 +6,7 @@ namespace Imk\FormBundle\Utils;
 
 use Imk\FormBundle\Factory\Builder\Builder;
 use Imk\FormBundle\Factory\Builder\DtoBuilder;
+use Imk\FormBundle\Factory\Builder\FormBuilder;
 use Imk\FormBundle\Factory\Form\Form;
 use Imk\FormBundle\Factory\Form\FormFields;
 
@@ -25,6 +26,10 @@ class ImkCmdManager
      */
     private $builderDto;
     /**
+     * @var DtoBuilder
+     */
+    private $builderForm;
+    /**
      * @var Form
      */
     private $form;
@@ -34,12 +39,14 @@ class ImkCmdManager
      * ImkCmdManager constructor.
      * @param Form $form
      * @param FormFields $formFields
-     * @param DtoBuilder $builder
+     * @param DtoBuilder $builderDto
+     * @param FormBuilder $builderForm
      */
-    public function __construct(Form $form, FormFields $formFields, DtoBuilder $builder)
+    public function __construct(Form $form, FormFields $formFields, DtoBuilder $builderDto, FormBuilder $builderForm)
     {
         $this->formFields = $formFields;
-        $this->builderDto = $builder;
+        $this->builderDto = $builderDto;
+        $this->builderForm = $builderForm;
         $this->form = $form;
     }
 
@@ -51,6 +58,17 @@ class ImkCmdManager
                 $dataForRenderDto = $this->formFields->fields($formName)->buildDataRenderDto();
                 $className = $this->form->getClass();
                 $this->builderDto->build($className, $this->formFields->getFields(), $dataForRenderDto);
+            }
+        }
+
+    }
+    public function buildForm($allForms)
+    {
+        if(is_array($allForms)){
+            foreach ($allForms as $formName => $allForm) {
+                $dataForRenderForm = $this->formFields->fields($formName)->buildDataRenderForm();
+                $className = $this->form->getClass();
+                $this->builderForm->build($className, $this->formFields->getFields(), $dataForRenderForm);
             }
         }
 

@@ -58,12 +58,13 @@ class Builder
     /**
      * @param string $className
      * @param null $fields
+     * @param $dataRender
      * @throws \Exception
      */
-    public function generateForm(string $className, $fields = null)
+    public function generateForm(string $className, $fields , $dataRender)
     {
-        var_dump($className); die;
-        $fields = $this->buildFieldForm($fields);
+
+
 
         $useDependency = [];
         foreach ($fields as $itemField) {

@@ -18,7 +18,7 @@ class DtoBuilder extends Builder
      * @param $dataRender
      * @throws \Exception
      */
-    public function build(string $name, $fields, $dataRender): void
+    public function build(string $name, $fields, $dataRender)
     {
         try {
             $this->generateDTO($name, $fields, $dataRender);

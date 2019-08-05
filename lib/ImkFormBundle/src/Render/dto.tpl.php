@@ -45,7 +45,7 @@ class <?= $class_name . "\n"; ?>
     */
     public function <?= 'get' . ucfirst(strtolower($field) . '()'); ?><?php echo "\n"; ?>
     {
-    return $this-><?= $field . ';'; ?><?php echo "\n"; ?>
+       return $this-><?= $field . ';'; ?><?php echo "\n"; ?>
     }
 
     /**
@@ -53,7 +53,7 @@ class <?= $class_name . "\n"; ?>
     */
     public function <?= 'set' . ucfirst(strtolower($field) . '(' . '$' . $field . ')'); ?><?php echo "\n"; ?>
     {
-    return $this-><?= $field; ?> = <?= '$' . $field . ';'; ?><?php echo "\n"; ?>
+        return $this-><?= $field; ?> = <?= '$' . $field . ';'; ?><?php echo "\n"; ?>
     }
 
 

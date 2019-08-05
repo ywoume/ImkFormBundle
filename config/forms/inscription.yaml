@@ -93,3 +93,9 @@ form_inscription:
           type: checkbox
           require: true
         event: event
+  addMethod:
+    entity:
+      testEntity:
+        name:'testEntity'
+      params:
+        secteur:

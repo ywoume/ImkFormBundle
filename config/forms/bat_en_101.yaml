@@ -1,0 +1,27 @@
+forms:
+  attr:
+    name: formName
+    class: formClass
+    cssClass: 'css-class'
+    action: 'path'
+    id: 'idform'
+  fields:
+    nom:
+      name: name
+      template: true
+      dto: true
+      assert: notblank
+      class: 'col-lg-6'
+      id: null
+      type: text
+      require: true
+      event: event
+      data:
+        id: 1
+        variable: var
+entity: true
+form_dir: %project_dir%/templates/forms
+form_object: %project_dir%/src/Form/Types
+form_dto: %project_dir%/src/Form/Dto
+
+

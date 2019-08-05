@@ -89,6 +89,20 @@ class FormFields
         }
         return [];
     }
+    public function buildDataRenderForm()
+    {
+        if(is_array($this->fields)){
+            $result = [];
+            foreach ($this->fields as $item => $field) {
+                if($field['form']){
+                    $result[] = $this->matchFields($field);
+                }
+            }
+            return $result;
+
+        }
+        return [];
+    }
 
     private function matchFields($field)
     {

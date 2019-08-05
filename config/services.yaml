@@ -39,7 +39,15 @@ services:
         autowire: false
     Imk\FormBundle\Factory\Builder\DtoBuilder:
         arguments: ['@maker.generator','@maker.renderer.form_type_renderer', '@kernel']
-    Imk\FormBundle\Utils\ImkCmdManager: ~
+    Imk\FormBundle\Utils\ImkCmdManager:
+        arguments:
+            - '@Imk\FormBundle\Factory\Form\Form'
+            - '@Imk\FormBundle\Factory\Form\FormFields'
+            - '@Imk\FormBundle\Factory\Builder\DtoBuilder'
+            - '@FormBuilder'
+    Imk\FormBundle: ~
     Imk\FormBundle\Command\GenerateAllCommand: ~
+    Imk\FormBundle\Command\GenerateFormCommand:
+        arguments: ['@Imk\FormBundle\Utils\ImkCmdManager']
     Imk\FormBundle\Command\GenerateDtoCommand:
         arguments: ['@Imk\FormBundle\Utils\ImkCmdManager']

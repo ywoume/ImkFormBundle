@@ -2,14 +2,14 @@
 
 namespace Imk\FormBundle\Command;
 
-use App\Services\Operations\OperationsManager;
 use Imk\FormBundle\Utils\ImkCmdManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class GenerateFormCommand /*extends ImkVersioningCmd*/
+class GenerateFormCommand extends Command
 {
     protected static $defaultName = 'imk:generate:form';
     /**
@@ -20,11 +20,10 @@ class GenerateFormCommand /*extends ImkVersioningCmd*/
     /**
      * ImkGenerateFormCommand constructor.
      * @param ImkCmdManager $imkCmdManager
-     * @param string|null $name
      */
-    public function __construct(ImkCmdManager $imkCmdManager, string $name = null)
+    public function __construct(ImkCmdManager $imkCmdManager)
     {
-        parent::__construct($name);
+        parent::__construct();
         $this->imkCmdManager = $imkCmdManager;
     }
 
@@ -39,14 +38,14 @@ class GenerateFormCommand /*extends ImkVersioningCmd*/
     {
         $io = new SymfonyStyle($input, $output);
         $increase = $input->getArgument('increase');
-        if ($increase) {
+        /*if ($increase) {
             $io->note(sprintf('You passed an argument: %s', $increase));
             $increase = true;
         } else {
             $increase = false;
-        }
-        $allOps = $this->imkCmdManager->getAllOperations();
-        $this->imkCmdManager->buildForm($allOps, $increase);
+        }*/
+        $allOps = $this->imkCmdManager->allForms();
+        $this->imkCmdManager->buildDto($allOps);
         $io->success('You have generate form for Imk, now send boobs in slack ;) ');
 
         if ($increase && $increase == 'git') {
