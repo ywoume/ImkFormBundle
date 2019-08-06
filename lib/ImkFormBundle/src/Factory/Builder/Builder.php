@@ -4,6 +4,7 @@
 namespace Imk\FormBundle\Factory\Builder;
 
 
+use Imk\FormBundle\Factory\LoadConfigFactory;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\Renderer\FormTypeRenderer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -40,31 +41,38 @@ class Builder
      * @var KernelInterface
      */
     private $kernel;
+    /**
+     * @var LoadConfigFactory
+     */
+    private $loadConfigFactory;
+    private $namespace;
 
     /**
      * GeneratorForm constructor.
      *
-     * @param Generator $generator
-     * @param FormTypeRenderer $formTypeRenderer
-     * @param KernelInterface $kernel
+     * @param Generator         $generator
+     * @param FormTypeRenderer  $formTypeRenderer
+     * @param KernelInterface   $kernel
+     * @param LoadConfigFactory $loadConfigFactory
      */
-    public function __construct(Generator $generator, FormTypeRenderer $formTypeRenderer, KernelInterface $kernel)
+    public function __construct(Generator $generator, FormTypeRenderer $formTypeRenderer, KernelInterface $kernel, LoadConfigFactory $loadConfigFactory)
     {
         $this->generator = $generator;
         $this->formTypeRenderer = $formTypeRenderer;
         $this->kernel = $kernel;
+        $this->loadConfigFactory = $loadConfigFactory->getFormsNamespace();
+        $this->namespace = (object)$loadConfigFactory->getFormsNamespace();
     }
 
     /**
-     * @param string $className
-     * @param null $fields
-     * @param $dataRender
+     * @param string            $className
+     * @param                   $dataRender
+     * @param LoadConfigFactory $loadConfigFactory
+     *
      * @throws \Exception
      */
-    public function generateForm(string $className, $fields , $dataRender)
+    public function generateForm(string $className, $dataRender)
     {
-
-
 
         $useDependency = [];
         foreach ($fields as $itemField) {
@@ -121,12 +129,49 @@ class Builder
      * @return void
      * @throws \Exception
      */
-    public function generateDTO(string $className, $fields, $dataRender): void
+    public function generateDTO(string $className, $dataRender): void
+    {
+        $entityClassDetails = $this->generator->createClassNameDetails(
+            $className,
+            $this->namespace->dto
+        );
+        $classExists = class_exists($entityClassDetails->getFullName());
+
+
+        if (!$classExists) {
+
+            try {
+
+                $this->generator->generateClass(
+                    $entityClassDetails->getFullName(),
+                    __DIR__.'/../../Render/dto.tpl.php',
+                    [
+                        'class_name' => $className,
+                        'form_fields' => $dataRender,
+                        'form_validator' => $this->parseValidator($dataRender),
+                        'namespaces' => 'App\\Form\\Operations\\DTO',
+                        'addMethod' => '',
+                        //'validator' => $this->getValidators($fields)
+                    ]
+                );
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage().' '.$e->getCode());
+            }
+
+            $this->generator->writeChanges();
+        } else {
+            echo "No class avalaible";
+        }
+
+        echo 'Generation DTO '.$className." -> at: ".(new \DateTime('now'))->format('d/m/Y')."\n";
+    }
+
+    public function generateCalculate(string $className, $dataRender): void
     {
 
         $entityClassDetails = $this->generator->createClassNameDetails(
             $className,
-            'Form\\Dto'
+            $this->namespace->dto
         );
 
         $classExists = class_exists($entityClassDetails->getFullName());
@@ -158,17 +203,6 @@ class Builder
         echo 'Generation DTO '.$className." -> at: ".(new \DateTime('now'))->format('d/m/Y')."\n";
     }
 
-    public function getValidators($fields)
-    {
-        $item = [];
-        if(is_array($fields)){
-            foreach ($fields as $key => $item) {
-                $item['name'] = [];
-            }
-        }
-        return $item;
-    }
-
 
     /**
      * @param array $fields
@@ -193,4 +227,6 @@ class Builder
         }
 
     }
+
+
 }

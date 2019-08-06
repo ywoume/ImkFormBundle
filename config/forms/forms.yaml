@@ -1,5 +1,14 @@
 imk_form:
   forms:
+    namespace:
+      forms: App\Form\Types
+      dto: Form\Dto\
+      calcul: App\Form\Traitement
+    twig:
+      forms:
+        enr: '/var/www'
+        odicee: '/var/www/odicee'
+        test: 'template/test'
     imports:
       - { resource: inscription.yaml }
       - { resource: login.yaml}

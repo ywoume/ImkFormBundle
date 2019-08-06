@@ -1,9 +1,12 @@
 form_inscription:
     login: false
     name: inscription
-    class: FormInscription
+    class: Inscription
     action: 'path'
     provider: ['entity','dto']
+    unique:
+      -   nom:
+            error: "label.error.unique.nom"
     attr:
       cssClass: 'css-class'
       id: 'idform'
@@ -93,9 +96,5 @@ form_inscription:
           type: checkbox
           require: true
         event: event
-  addMethod:
-    entity:
-      testEntity:
-        name:'testEntity'
-      params:
-        secteur:
+    addMethod:
+      method: ['calculate', 'generateTest']
