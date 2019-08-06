@@ -90,16 +90,16 @@ class LoadConfigFactory
         return $this->getForms()[$name];
     }
 
-    /* private function loop($dataToLoop) : array
-     {
-         if(is_array($dataToLoop) && count($dataToLoop) > 0 ) {
-             $result = [];
-             foreach ($dataToLoop as $key => $item) {
-                 $result[$key] = $item;
-             }
-             return $result;
-         }
-         return [];
-     }*/
+    public function getFormsNamespace()
+    {
+        $config = $this->readFileConfig();
+        return $config['imk_form']['forms']['namespace'];
+    }
+
+    public function getFormsTwig()
+    {
+        $config = $this->readFileConfig();
+        return $config['imk_form']['forms']['twig']['forms'];
+    }
 
 }
