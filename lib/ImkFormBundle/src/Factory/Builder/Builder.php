@@ -44,7 +44,7 @@ class Builder
     /**
      * @var LoadConfigFactory
      */
-    private $loadConfigFactory;
+    protected $loadConfigFactory;
     private $namespace;
 
     /**
@@ -60,7 +60,7 @@ class Builder
         $this->generator = $generator;
         $this->formTypeRenderer = $formTypeRenderer;
         $this->kernel = $kernel;
-        $this->loadConfigFactory = $loadConfigFactory->getFormsNamespace();
+        $this->loadConfigFactory = $loadConfigFactory;
         $this->namespace = (object)$loadConfigFactory->getFormsNamespace();
     }
 
@@ -123,13 +123,17 @@ class Builder
 
     /**
      * @param string $className
-     * @param $fields
+     * @param array  $dataRender
+     * @param array  $validator
      *
-     * @param $dataRender
+     * @param array  $uniqueEntity
+     *
+     * @param array  $addMethod
+     *
      * @return void
      * @throws \Exception
      */
-    public function generateDTO(string $className, $dataRender): void
+    public function generateDTO(string $className, array $dataRender, array $validator = [], array $addMethod = []): void
     {
         $entityClassDetails = $this->generator->createClassNameDetails(
             $className,
@@ -148,9 +152,9 @@ class Builder
                     [
                         'class_name' => $className,
                         'form_fields' => $dataRender,
-                        'form_validator' => $this->parseValidator($dataRender),
-                        'namespaces' => 'App\\Form\\Operations\\DTO',
-                        'addMethod' => '',
+                        'form_validator' => $validator,
+                        'namespaces' => 'App\\'.$this->namespace->dto,
+                        'addMethod' => $addMethod,
                         //'validator' => $this->getValidators($fields)
                     ]
                 );

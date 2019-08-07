@@ -78,7 +78,6 @@ class LoadConfigFactory
                     }
                 }
             }
-
             return $result;
         }
 
@@ -100,6 +99,11 @@ class LoadConfigFactory
     {
         $config = $this->readFileConfig();
         return $config['imk_form']['forms']['twig']['forms'];
+    }
+
+    public function getFormsAddMethod(string $name)
+    {
+        return $this->getForm($name);
     }
 
 }

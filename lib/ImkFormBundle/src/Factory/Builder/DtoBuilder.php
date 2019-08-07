@@ -10,19 +10,36 @@ class DtoBuilder extends Builder
      * @var $data
      */
     private $name;
+    /**
+     * @var string
+     */
+    private $className;
+    /**
+     * @var string
+     */
+    private $formName;
 
     /**
      *
-     * @param string $name
-     * @param        $dataRender
+     * @param string $formName
+     * @param string $className
+     * @param array  $fieldsData
      *
      * @throws \Exception
      */
-    public function build(string $name, $dataRender)
+    public function build(string $formName, string $className, array $dataForRenderDto)
     {
         try {
-            $this->name = $name;
-            $this->generateDTO($this->getName(), $this->transformToValidator($this->parseValidator($dataRender)));
+
+            $this->className = $className;
+            $this->formName = $formName;
+            $this->generateDTO(
+                $this->getClassName(),
+                $dataForRenderDto,
+                $this->transformToValidator($this->parseValidator($dataForRenderDto)),
+                $this->parseAddMethod()
+            );
+
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage().' - '.$e->getCode());
         }
@@ -31,91 +48,136 @@ class DtoBuilder extends Builder
     /**
      * @return string
      */
-    public function getName(): string
+    private function getClassName(): string
     {
-        if (is_string($this->name) && $this->name !== '' && !is_null($this->name)) {
-            $this->name = str_replace('Form', '', $this->name);
-            $this->name = str_replace('Calculate', '', $this->name);
-            $this->name = 'DtoForm'.ucfirst($this->name);
+        if (is_string($this->className) && $this->className !== '' && !is_null($this->className)) {
+            $this->className = str_replace('Form', '', $this->className);
+            $this->className = str_replace('Calculate', '', $this->className);
+            $this->className = 'DtoForm'.ucfirst($this->className);
 
-            return $this->name;
+            return $this->className;
         }
 
         return '';
     }
 
-    private function transformToValidator(array $validator)
+    private function getFormName(): string
+    {
+        if (is_string($this->formName) && $this->formName !== '' && !is_null($this->formName)) {
+            return $this->formName;
+        }
+
+        return '';
+    }
+
+    private function transformToValidator(array $validator): array
     {
         if (is_array($validator)) {
+            $assertion = [];
             foreach ($validator as $key => $items) {
                 foreach ($items as $realKey => $item) {
                     foreach ($item as $k => $i) {
 
                         if (strtolower($k) == 'notblank') {
-                            $assertion = '@Assert\NotBlank'.(count($i) > 0) ? '("'.sprintf('%s', $i['message']).'")' : '';
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\NotBlank'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\NotBlank';
+
                         }
-                        if (strtolower($k) == 'notnull') {
-                            $assertion = '@Assert\NotNull'.(count($i) > 0) ? '("'.sprintf('%s', $i['message']).'")' : '';
+                        if (strtolower($k) == 'number' || strtolower($k) == 'positive' || strtolower($k) == 'integer') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\Positive'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\Positive';
                         }
 
-                        if (strtolower($k) == 'istrue') {
-                            $assertion = '@Assert\IsTrue'.(count($i) > 0) ? '("'.sprintf('%s', $i['message']).'")' : '';
+                        if (strtolower($k) == 'notnull') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\NotNull'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\NotNull';
                         }
-                        if (strtolower($k) == 'isfalse') {
-                            $assertion = '@Assert\IsFalse'.(count($i) > 0) ? '("'.sprintf('%s', $i['message']).'")' : '';
+
+                        if (strtolower($k) == 'email') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\Email'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\Email';
                         }
-                        if (strtolower($k) == 'istrue') {
-                            $assertion = '@Assert\Email'.(count($i) > 0) ? '("'.sprintf('%s', $i['message']).'")' : '';
+
+                        if (strtolower($k) == 'istrue' || strtolower($k) == 'true') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\True'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\True';
                         }
+
+                        if (strtolower($k) == 'isfalse' || strtolower($k) == 'false') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\False'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\False';
+                        }
+
+                        if (strtolower($k) == 'type') {
+                            $assertion[$key][] = '@Assert\Type(type="'.sprintf('%s', $i['type']).'" , message="'.sprintf('%s', $i['message']).'"';
+                        }
+
                         if (strtolower($k) == 'length') {
-                            $assertion = '@Assert\Length(
-                                            min=2,
-                                            max=50,
-                                            minMessage = "",
-                                            maxMessage = ""    
-                                        )';
+                            $assertion[$key][] = '@Assert\Length(min="'.sprintf('%s', $i['min']).'", max="'.sprintf('%s', $i['max']).'", minMessage="'.sprintf(
+                                    '%s',
+                                    $i['minMessage']
+                                ).'", maxMessage="'.sprintf('%s', $i['maxMessage']).'")';
+                        }
+
+                        if (strtolower($k) == 'less' || strtolower($k) == 'lessthan') {
+                            $assertion[$key][] = '@Assert\LessThan("'.sprintf('%s', $i['value']).'")';
+                        }
+                        if (strtolower($k) == 'greather' || strtolower($k) == 'greatherthan') {
+                            $assertion[$key][] = '@Assert\GreaterThan("'.sprintf('%s', $i['value']).'")';
                         }
 
                         if (strtolower($k) == 'date') {
-                            $assertion = '@Assert\Date';
+                            $assertion[$key][] = '@Assert\Date';
                         }
-
                         if (strtolower($k) == 'datetime') {
-                            $assertion = '@Assert\DateTime';
-                        }
-                        if (strtolower($k) == 'language') {
-                            $assertion = '@Assert\Language';
+                            $assertion[$key][] = '@Assert\DateTime';
                         }
 
                         if (strtolower($k) == 'bic') {
-                            $assertion = '@Assert\Bic';
+                            $assertion[$key][] = '@Assert\Bic';
                         }
-
                         if (strtolower($k) == 'iban') {
-                            $assertion = '@Assert\Iban("'.sprintf('%s', $i['message']).'")';
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\Iban'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\Iban';
                         }
-                        if (strtolower($k) == 'isbn') {
-                            $assertion = '@Assert\ISBN';
+                        if (strtolower($k) == 'iban') {
+                            $assertion[$key][] = (count($i) > 0) ? '@Assert\Iban'.'("'.sprintf('%s', $i['message']).'")' : '@Assert\Iban';
                         }
 
                     }
                 }
+
             }
+
+            return $assertion;
         }
+
+        return [];
     }
 
     private function parseValidator(array $dataRender)
     {
+
         if (is_array($dataRender)) {
             $result = [];
             foreach ($dataRender as $keys => $items) {
-                $result[$keys] = $items['validation'];
+                foreach ($items as $kItem => $itemItems) {
+                    $result[$kItem] = $itemItems['validation'];
+                }
             }
-
             return $result;
         }
 
         return [];
     }
+
+    private function parseAddMethod()
+    {
+        $form = $this->loadConfigFactory->getForm($this->getFormName());
+        if (array_key_exists('addMethod', $form)) {
+            return $form['addMethod']['method'];
+        }
+
+        return [];
+    }
+
+    /*private function parseUniqueFields()
+    {
+        return  $this->loadConfigFactory->getForm($this->getFormName())['unique'];
+
+    }*/
 
 }

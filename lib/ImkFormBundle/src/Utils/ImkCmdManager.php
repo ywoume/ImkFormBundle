@@ -50,6 +50,11 @@ class ImkCmdManager
         $this->form = $form;
     }
 
+    /**
+     * @param $allForms
+     *
+     * @throws \Exception
+     */
     public function buildDto($allForms)
     {
 
@@ -57,7 +62,11 @@ class ImkCmdManager
             foreach ($allForms as $formName => $allForm) {
                 $dataForRenderDto = $this->formFields->fields($formName)->buildDataRenderDto();
                 $className = $this->form->getClass();
-                $this->builderDto->build($className, $this->formFields->getFields(), $dataForRenderDto);
+                try {
+                    $this->builderDto->build($formName, $className, $dataForRenderDto);
+                } catch (\Exception $e) {
+                    throw new \Exception("Bug de du builder dto");
+                }
             }
         }
 

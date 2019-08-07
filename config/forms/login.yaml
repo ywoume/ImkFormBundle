@@ -1,81 +1,72 @@
-fom_login:
-  login: true
-  name: inscription
-  class: FormLogin
-  action: 'path'
-  provider: ['entity','dto']
-  attr:
-    cssClass: 'css-class'
-    id: 'idform'
-  fields:
-    email:
-      name: name
-      template: true
-      dto: true
-      entity: true
-      validation:
-        - notblank:
-            message: label.test
-        - number:
-            min: 2
-            max: 3
-      attr:
-        class: 'col-lg-6'
-        id: null
-        type: text
-        require: true
-        data-html:
-          id: 1
-          variable: var
-      event: event
-    password:
-      name: password
-      template: false
-      dto: false
-      entity: false
-      validation:
-        - notblank:
-            message: label.password
-        - min:
-            message: label.min
-            lenght: 3
-        - preg_match:
-            message: label.pregmatch
-            pattern: ''
-      attr:
-        class: 'col-lg-6'
-        id: inscription_password
-        type: text
-        require: true
-        data-html:
-          id: 1
-          variable: var
-      event: event
-    remeber_me:
-      name: remeber_me
-      template: true
-      dto: false
-      entity: false
-      validation:
-        - notblank:
-            message: label.remeber_me
-      attr:
-        class: 'col-lg-12'
-        id: login_remeber_me
-        type: chekbox
-        require: true
-      event: event
-    cgv:
-      name: cgv
-      template: true
-      dto: false
-      entity: false
-      validation:
-        - notblank:
-            message: label.cgv
-      attr:
-        class: 'col-lg-12'
-        id: inscription_email
-        type: checkbox
-        require: true
-      event: event
+form_login:
+    login: true
+    name: login
+    class: FormLogin
+    action: 'path'
+    provider: ['entity','dto']
+    attr:
+        cssClass: 'css-class'
+        id: 'idform'
+    fields:
+        email:
+            name: email
+            template: true
+            dto: true
+            entity: true
+            validation:
+                -   notblank:
+                        message: label.test
+            attr:
+                class: 'col-lg-6'
+                id: null
+                type: text
+                require: true
+                data-html:
+                    id: 1
+                    variable: var
+            event: event
+        password:
+            name: password
+            template: false
+            dto: false
+            entity: false
+            validation:
+                -   notblank:
+                        message: label.password'
+            attr:
+                class: 'col-lg-6'
+                id: inscription_password
+                type: text
+                require: true
+                data-html:
+                    id: 1
+                    variable: var
+            event: event
+        remeber_me:
+            name: remeber_me
+            template: true
+            dto: false
+            entity: false
+            validation:
+                -   notblank:
+                        message: label.remeber_me
+            attr:
+                class: 'col-lg-12'
+                id: login_remeber_me
+                type: chekbox
+                require: true
+            event: event
+        cgv:
+            name: cgv
+            template: true
+            dto: false
+            entity: false
+            validation:
+                -   notblank:
+                        message: label.cgv
+            attr:
+                class: 'col-lg-12'
+                id: inscription_email
+                type: checkbox
+                require: true
+            event: event
