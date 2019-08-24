@@ -1,0 +1,119 @@
+imk_auth:
+    path:
+        form: App\Form\Types
+        entity: App\Entity
+        dto: App\Form\Dto
+    providers:
+        users:
+            class: App\Entity\User
+            login: true
+        profils:
+            class: App\Entity\UserProfil
+            depends: users
+        pro:
+            class: App\Entity\UserPro
+            login: true
+    register:
+        default:
+            pattern: ^/register
+            fields:
+                username:
+                    type: text
+                    unique: true
+                    entity: users
+                repeated:
+                    type: password
+                    length: 255
+                    unique: false
+                    entity: users
+                    hash: true
+                nom:
+                    type: text
+                    length: 255
+                    unique: false
+                    entity: profils
+                prenom:
+                    type: text
+                    length: 255
+                    unique: false
+                    entity: profils
+                profil:
+                    type: textarea
+                    unique: false
+                    entity: profils
+            type: form
+        register_api:
+            pattern: ^/api-register
+            role: ROLE_API
+            type: json
+    login:
+        default:
+            provider: users
+            pattern: /login
+            form_login:
+                buildform: true
+                login_path: pathlogin
+                login_check: checklogin
+            json_login:
+                json_path: json_path
+                login_check: logincheck
+            #guards: Ap
+        enr:
+            login_type: form
+            provider: enr
+            pattern: /login-enr
+            form_login:
+                buildform: true
+                login_path: pathlogin
+                login_check: checklogin
+        passrenov:
+            login_type: guard
+            class: App\Security\GuardAuthentification
+            form: login_type
+        crm:
+            login_type: json
+            auth_type: Berear
+            api_token: rzgzUNZ867DFNkzsxnojczpm
+            extends: imk_api_bundle
+        google:
+            login_type: google
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        facebook:
+            login_type: facebook
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        twitter:
+            login_type: twitter
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        youtube:
+            login_type: youtube
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        linkedin:
+            login_type: linkedin
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        imkauth:
+            login_type: imkauth
+            public_key: xxxxx
+            private_key: xxxxxxxx
+        jwt:
+            login_type: jwt
+            public_key: xxxxx
+            private_key: xxxxxxxx
+    permissions:
+        - LIST
+        - EDIT
+        - REMOVE
+        - EDIT
+    roles:
+        -   ROLE_P1: ['LIST', 'EDIT', 'REMOVE', 'EDIT']
+        -   ROLE_P2: ['LIST', 'EDIT']
+        -   ROLE_CONSULT: ['LIST']
+
+
+
+
+

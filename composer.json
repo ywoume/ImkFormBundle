@@ -31,7 +31,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Imk\\FormBundle\\": "lib/ImkFormBundle/src/"
+            "Imk\\FormBundle\\": "lib/ImkFormBundle/src/",
+            "Imk\\AuthBundle\\": "lib/ImkAuthBundle/src/"
         }
     },
     "autoload-dev": {
