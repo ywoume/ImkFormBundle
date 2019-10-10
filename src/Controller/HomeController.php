@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Imk\AuthBundle\Factory\FileLoadConfig;
 use Imk\FormBundle\Factory\Builder\FormBuilder;
 use Imk\FormBundle\Factory\Form\Form;
 use Imk\FormBundle\Factory\Form\FormFields;
@@ -20,18 +21,9 @@ class HomeController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(FormFields $formField, LoadConfigFactory $formBuilder, Request $request)
+    public function index(Request $request, FileLoadConfig $config)
     {
-        dd($formBuilder->getFormsNamespace());
-        die;
-        die;
-        $resp = $formField->fields('form_inscription')->buildDataRender();
-        dd($resp);
-        die;
-        // $this->createForm(null, null);
-        $formName = 'formName';
-        $form = $imkForm->formProcess($formName, $request);
-
+        dd($config->getFormPath());
         return $this->json([
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/HomeController.php',

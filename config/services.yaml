@@ -53,3 +53,7 @@ services:
         arguments: ['@Imk\FormBundle\Utils\ImkCmdManager']
     Imk\FormBundle\Command\GenerateDtoCommand:
         arguments: ['@Imk\FormBundle\Utils\ImkCmdManager']
+    Imk\AuthBundle\Factory\FileLoadConfig:
+        arguments: ['@kernel']
+    Imk\AuthBundle\Command\ImkAuthCreateUser: ~
+

@@ -54,9 +54,13 @@ imk_auth:
                 buildform: true
                 login_path: pathlogin
                 login_check: checklogin
-            json_login:
-                json_path: json_path
-                login_check: logincheck
+                fields:
+                    - username
+                    - nom
+                    - prenom
+                    - captcha
+                captcha: google
+                remeber_me: true
             #guards: Ap
         enr:
             login_type: form
